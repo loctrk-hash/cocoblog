@@ -92,9 +92,10 @@ VPS 端：
 
 ### 目前內容
 
-只有 **1 篇**文章：
+目前 **2 篇**文章：
 
 - `content/posts/first-month-budgeting.md` — 記帳新手的第一個月：從零開始建立習慣
+- `content/posts/three-budgeting-methods.md` — 三種記帳法比較：流水帳、分類預算、信封法
 
 ### 下一個主要目標
 
@@ -365,7 +366,7 @@ git push origin main
 
 ## 11. 待辦（依優先序）
 
-1. **寫文章**：依 `docs/content-roadmap.md` 補到 15–20 篇（目前 1 篇）。
+1. **寫文章**：依 `docs/content-roadmap.md` 補到 15–20 篇（目前 2 篇）。
 2. **App 教學素材**：需要使用者提供 CocoBook App 的實際畫面與操作流程（截圖最好），才能寫出準確教學。
 3. **AdSense**：內容足夠後送審；通過後把 AdSense 提供的 `ads.txt` 放進 `static/ads.txt` 並重新部署。
 4. （選配）Cloudflare SSL 改「完整（嚴格）」。
