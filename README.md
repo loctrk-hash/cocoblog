@@ -1,6 +1,8 @@
 # CocoBook 記帳筆記
 
-以 Hugo + PaperMod 建置的靜態部落格，預計部署於 <https://cocobook.cc/>（VPS + Nginx）。
+以 Hugo + PaperMod 建置的靜態部落格，部署於 <https://cocobook.cc/>（VPS + Nginx）。
+
+> 新開 session 或接手維護時，請先讀 **[docs/handover.md](docs/handover.md)**（環境、部署、注意事項）與 **[docs/content-roadmap.md](docs/content-roadmap.md)**（20 篇文章進度）。
 
 ## 目錄結構
 
@@ -9,6 +11,10 @@ content/
   posts/           文章（一篇一個 .md，檔名 = 網址）
   about.md         關於
   privacy.md       隱私權政策
+  404.md           自訂 404 頁（layout: notfound）
+docs/
+  handover.md      交接文件（環境、部署、注意事項）
+  content-roadmap.md  20 篇文章進度
 layouts/
   robots.txt       自訂 robots.txt
 static/            原樣複製到網站根目錄的檔案（例如 ads.txt、圖片）
