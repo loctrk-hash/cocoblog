@@ -36,3 +36,79 @@
 .nf-home:hover {
     background: var(--entry);
 }
+
+/* 相關網站與工具：外部連結卡片 */
+.site-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.25rem 0 1.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--entry);
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.site-card:hover {
+    border-color: var(--primary);
+    background: var(--code-bg);
+    transform: translateY(-1px);
+}
+
+.site-card-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--code-bg);
+    color: var(--primary);
+}
+
+.site-card-icon svg {
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.site-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.site-card-title {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.site-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--secondary);
+}
+
+.site-card-cta {
+    flex: 0 0 auto;
+    margin-left: auto;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .site-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .site-card-cta {
+        margin-left: 3.75rem;
+    }
+}
+
