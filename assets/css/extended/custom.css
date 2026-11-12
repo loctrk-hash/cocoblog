@@ -1,0 +1,38 @@
+/* 自訂樣式（PaperMod 會自動合併 assets/css/extended/ 下的檔案） */
+
+/* 404 頁 */
+.nf {
+    max-width: 640px;
+    margin: 14vh auto 0;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.nf-code {
+    margin: 0 0 0.5rem;
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.nf-msg {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.nf-desc {
+    margin: 0 0 1.75rem;
+    color: var(--secondary);
+}
+
+.nf-home {
+    display: inline-block;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: background 0.15s ease;
+}
+
+.nf-home:hover {
+    background: var(--entry);
+}
