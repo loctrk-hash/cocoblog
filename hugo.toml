@@ -1,0 +1,61 @@
+baseURL = "https://cocobook.cc/"
+title = "CocoBook 記帳筆記"
+locale = "zh-TW"
+defaultContentLanguage = "zh-tw"
+theme = "PaperMod"
+
+enableRobotsTXT = true
+enableEmoji = true
+
+# 文章網址：/posts/<檔名>/
+[permalinks]
+  posts = "/posts/:contentbasename/"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[pagination]
+  pagerSize = 10
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+
+[params]
+  author = "CocoBook"
+  description = "記帳技巧、理財觀念與 App 使用教學"
+  defaultTheme = "auto"
+  ShowReadingTime = false
+  # Hugo 的閱讀時間以空白斷詞，中文會被低估，故關閉
+  DateFormat = "2006年1月2日"
+  ShowShareButtons = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  mainSections = ["posts"]
+
+  [params.homeInfoParams]
+    Title = "CocoBook 記帳筆記"
+    Content = "分享記帳技巧、理財觀念與 App 使用教學。"
+
+[[menu.main]]
+  name = "文章"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  name = "分類"
+  url = "/categories/"
+  weight = 20
+
+[[menu.main]]
+  name = "關於"
+  url = "/about/"
+  weight = 30
+
+[[menu.main]]
+  name = "隱私權政策"
+  url = "/privacy/"
+  weight = 40

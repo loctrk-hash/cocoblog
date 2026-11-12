@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# App 工具頁與 LINE webhook 不需要被搜尋引擎收錄
+Disallow: /static/
+Disallow: /webhook
+
+Sitemap: {{ "sitemap.xml" | absURL }}
