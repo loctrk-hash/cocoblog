@@ -1,0 +1,9 @@
+{{- /*
+  AdSense 載入點。
+  只有 params.ads.enabled = true 且填入 client 時才會輸出 script。
+*/ -}}
+{{- $ads := site.Params.ads -}}
+{{- if and $ads $ads.enabled $ads.client -}}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $ads.client }}"
+    crossorigin="anonymous"></script>
+{{- end -}}

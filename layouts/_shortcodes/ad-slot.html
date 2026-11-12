@@ -1,0 +1,11 @@
+{{- /*
+  文章中段／指定位置的廣告版位。
+  用法：
+    {{< ad-slot >}}                         使用預設單元 ID（見下方）
+    {{< ad-slot slot="1234567890" >}}       指定廣告單元 ID
+  params.ads.enabled = false 時不輸出任何內容。
+*/ -}}
+{{- $slot := .Get "slot" | default site.Params.ads.articleBottomSlot -}}
+{{- with $slot -}}
+{{- partial "ad-slot.html" (dict "slot" . "label" "廣告") -}}
+{{- end -}}

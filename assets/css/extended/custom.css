@@ -1,17 +1,638 @@
-/* 自訂樣式（PaperMod 會自動合併 assets/css/extended/ 下的檔案） */
+/* ==========================================================================
+   CocoBook 微整型
+   - 米白 + 墨綠（暖色紙感）
+   - 只覆寫 PaperMod 的 CSS 變數與既有 class，不修改主題檔案
+   ========================================================================== */
 
-/* 404 頁 */
+/* --------------------------------------------------------------------------
+   1. 設計變數
+   -------------------------------------------------------------------------- */
+:root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC",
+        "Noto Sans TC", "Microsoft JhengHei", "Hiragino Sans GB", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+        "Liberation Mono", monospace;
+
+    --main-width: 740px;
+    --radius: 12px;
+
+    /* 米白 + 墨綠（淺色） */
+    --theme: #faf9f6;
+    --entry: #ffffff;
+    --primary: #1f2933;
+    --secondary: #5f6b7a;
+    --tertiary: #e6e2d9;
+    --content: #263340;
+    --code-bg: #f2efe8;
+    --border: #e6e2d9;
+
+    --accent: #0f766e;
+    --accent-soft: #e6f4f1;
+    --accent-contrast: #ffffff;
+    --accent-ring: rgba(15, 118, 110, 0.28);
+
+    --shadow-sm: 0 1px 2px rgba(24, 39, 35, 0.04),
+        0 1px 3px rgba(24, 39, 35, 0.06);
+    --shadow-md: 0 10px 30px -12px rgba(24, 39, 35, 0.22),
+        0 3px 10px -4px rgba(24, 39, 35, 0.1);
+}
+
+:root[data-theme="dark"] {
+    /* 深墨綠黑 + 薄荷綠（深色） */
+    --theme: #121614;
+    --entry: #1b211e;
+    --primary: #e8ece9;
+    --secondary: #9aa8a1;
+    --tertiary: #2c3530;
+    --content: #d6ddd8;
+    --code-bg: #202723;
+    --border: #2c3530;
+
+    --accent: #5eead4;
+    --accent-soft: rgba(94, 234, 212, 0.1);
+    --accent-contrast: #0b1412;
+    --accent-ring: rgba(94, 234, 212, 0.32);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.55),
+        0 3px 10px -4px rgba(0, 0, 0, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   2. 基礎：字型、行高、選取、焦點
+   -------------------------------------------------------------------------- */
+body {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 列表頁（含首頁）與文章頁使用同一個底色，避免首頁偏灰 */
+.list {
+    background: var(--theme);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: -0.01em;
+}
+
+code,
+pre,
+kbd {
+    font-family: var(--font-mono);
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--accent-contrast);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   3. 頁首：半透明模糊 + 墨綠 active
+   -------------------------------------------------------------------------- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--theme);
+    border-bottom: 1px solid var(--border);
+}
+
+@supports (backdrop-filter: blur(8px)) {
+    .header {
+        background: color-mix(in srgb, var(--theme) 82%, transparent);
+        backdrop-filter: saturate(140%) blur(12px);
+        -webkit-backdrop-filter: saturate(140%) blur(12px);
+    }
+}
+
+.header-nav {
+    line-height: var(--header-height);
+}
+
+.logo a {
+    letter-spacing: -0.02em;
+}
+
+.logo a::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.menu a {
+    color: var(--secondary);
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.menu a:hover {
+    color: var(--accent);
+}
+
+.menu .active {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration-color: var(--accent);
+}
+
+.theme-toggle {
+    color: var(--secondary);
+    border-radius: 999px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+/* --------------------------------------------------------------------------
+   4. 首頁 hero：漸層卡片 + 兩個 CTA
+   -------------------------------------------------------------------------- */
+.home-info {
+    position: relative;
+    min-height: 0;
+    margin: 0.75rem 0 2.75rem;
+    padding: clamp(1.75rem, 4vw, 3.25rem);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 6px);
+    background: linear-gradient(180deg, var(--entry), var(--theme));
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.home-info::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+}
+
+.home-info::after {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: -70px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+    pointer-events: none;
+}
+
+.home-info .entry-header h1 {
+    position: relative;
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 4.4vw, 2.65rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.home-info .entry-header h1::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 4px;
+    margin-top: 1rem;
+    border-radius: 2px;
+    background: var(--accent);
+}
+
+.home-info .entry-content {
+    position: relative;
+    max-width: 48ch;
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    color: var(--secondary);
+}
+
+.home-info .entry-content > p:first-of-type {
+    color: var(--content);
+    font-size: 1.125rem;
+}
+
+.home-info .entry-content > p:last-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.9rem;
+}
+
+.home-info .entry-content > p:last-of-type a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease,
+        border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* 主要 CTA：開始閱讀 */
+.home-info .entry-content > p:last-of-type a:first-of-type {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: var(--accent-contrast);
+    box-shadow: 0 6px 16px -8px var(--accent-ring);
+}
+
+.home-info .entry-content > p:last-of-type a:first-of-type::after {
+    content: "→";
+    transition: transform 0.15s ease;
+}
+
+.home-info .entry-content > p:last-of-type a:first-of-type:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px -10px var(--accent-ring);
+}
+
+.home-info .entry-content > p:last-of-type a:first-of-type:hover::after {
+    transform: translateX(3px);
+}
+
+/* 次要 CTA：相關網站 */
+.home-info .entry-content > p:last-of-type a + a {
+    border: 1px solid var(--border);
+    background: var(--entry);
+    color: var(--primary);
+}
+
+.home-info .entry-content > p:last-of-type a + a:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   5. 文章列表卡片
+   -------------------------------------------------------------------------- */
+.post-entry {
+    padding: calc(var(--gap) + 2px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.post-entry:hover,
+.post-entry:focus-within {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+}
+
+.entry-header h2 {
+    font-size: 1.35rem;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+}
+
+.entry-content {
+    margin: 0.6rem 0 0.85rem;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+}
+
+.entry-footer {
+    font-size: 0.8125rem;
+    color: var(--secondary);
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+    letter-spacing: -0.02em;
+}
+
+/* 分類／標籤頁的標籤藥丸 */
+.terms-tags a {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.terms-tags a:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   6. 文章頁
+   -------------------------------------------------------------------------- */
+.post-header {
+    margin-top: 1.5rem;
+}
+
+.post-title {
+    font-size: clamp(1.9rem, 4vw, 2.55rem);
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+}
+
+.post-description {
+    margin-top: 0.85rem;
+    color: var(--secondary);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+}
+
+.post-meta {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+}
+
+.breadcrumbs {
+    font-size: 0.8125rem;
+    opacity: 0.85;
+}
+
+.post-content {
+    margin: 2rem 0 2.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.95;
+}
+
+.post-content > p {
+    color: var(--content);
+}
+
+/* 內文連結：墨綠 + 淡底線 */
+.post-content a:not(.anchor) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--accent-ring);
+    text-underline-offset: 0.22rem;
+    transition: text-decoration-color 0.15s ease;
+}
+
+.post-content a:not(.anchor):hover {
+    text-decoration-color: var(--accent);
+}
+
+/* 標題層級 */
+.post-content h2 {
+    position: relative;
+    margin: 2.75rem 0 1.15rem;
+    padding-inline-start: 0.85rem;
+    font-size: 1.625rem;
+    line-height: 1.4;
+}
+
+.post-content h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    bottom: 0.2em;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+}
+
+.post-content h3 {
+    margin: 2rem 0 0.9rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.post-content h4 {
+    margin: 1.6rem 0 0.75rem;
+    font-size: 1.0625rem;
+}
+
+/* 目錄／錨點跳轉時，避免標題被 sticky header 蓋住 */
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-title {
+    scroll-margin-top: calc(var(--header-height) + 1.25rem);
+}
+
+.post-content ul,
+.post-content ol {
+    padding-inline-start: 1.4rem;
+}
+
+.post-content li + li {
+    margin-top: 0.4rem;
+}
+
+.post-content li::marker {
+    color: var(--accent);
+}
+
+/* 引言 */
+.post-content blockquote {
+    margin: 1.75rem 0;
+    padding: 1rem 1.25rem;
+    border-inline-start: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--accent-soft);
+    color: var(--content);
+}
+
+.post-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* 表格：表頭淡墨綠、斑馬紋、可橫向捲動 */
+.post-content table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    margin: 1.75rem 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    font-variant-numeric: tabular-nums;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.post-content table thead th {
+    background: var(--accent-soft);
+    color: var(--primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.post-content table th,
+.post-content table td {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.post-content table tbody tr:nth-child(even) {
+    background: color-mix(in srgb, var(--code-bg) 55%, transparent);
+}
+
+.post-content table tbody tr:hover {
+    background: var(--accent-soft);
+}
+
+/* 圖片 */
+.post-content img {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 分隔線 */
+.post-content hr {
+    height: 1px;
+    margin: 2.5rem 0;
+    background: var(--border);
+}
+
+/* 行內程式碼 */
+.post-content :not(pre) > code {
+    padding: 0.15rem 0.4rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 6px;
+    font-size: 0.85em;
+}
+
+/* 目錄 */
+details.toc {
+    margin: 0.5rem 0 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--entry);
+    box-shadow: var(--shadow-sm);
+}
+
+details.toc summary {
+    padding: 0.7rem 1.15rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+details.toc .inner {
+    padding-bottom: 0.75rem;
+}
+
+details.toc a {
+    color: var(--secondary);
+}
+
+details.toc a:hover {
+    color: var(--accent);
+}
+
+/* 文章頁底部：標籤、分享、上下篇 */
+.post-tags a {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.post-tags a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-contrast);
+}
+
+.share-buttons {
+    background: var(--entry);
+}
+
+.paginav {
+    background: var(--entry);
+    box-shadow: var(--shadow-sm);
+}
+
+.paginav a:hover {
+    background: var(--accent-soft);
+}
+
+.pagination a {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pagination a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px -10px var(--accent-ring);
+}
+
+/* --------------------------------------------------------------------------
+   7. 頁尾、回到頂端
+   -------------------------------------------------------------------------- */
+.footer {
+    border-top: 1px solid var(--border);
+    font-size: 0.8125rem;
+    color: var(--secondary);
+}
+
+.footer a {
+    text-decoration: none;
+    color: var(--secondary);
+}
+
+.footer a:hover {
+    color: var(--accent);
+}
+
+.top-link {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    box-shadow: var(--shadow-md);
+}
+
+.top-link:hover {
+    color: var(--accent-contrast);
+}
+
+/* --------------------------------------------------------------------------
+   8. 404
+   -------------------------------------------------------------------------- */
 .nf {
     max-width: 640px;
-    margin: 14vh auto 0;
+    margin: 12vh auto 0;
     padding: 0 1.5rem;
     text-align: center;
 }
 
 .nf-code {
     margin: 0 0 0.5rem;
-    font-size: 6rem;
+    font-size: clamp(5rem, 16vw, 7rem);
+    font-weight: 700;
     line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--accent);
 }
 
 .nf-msg {
@@ -27,34 +648,43 @@
 
 .nf-home {
     display: inline-block;
-    padding: 0.55rem 1.4rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    transition: background 0.15s ease;
+    padding: 0.65rem 1.6rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .nf-home:hover {
-    background: var(--entry);
+    transform: translateY(-1px);
+    background: var(--accent);
+    box-shadow: 0 10px 22px -10px var(--accent-ring);
 }
 
-/* 相關網站與工具：外部連結卡片 */
+/* --------------------------------------------------------------------------
+   9. 相關網站與工具：外部連結卡片
+   -------------------------------------------------------------------------- */
 .site-card {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin: 1.25rem 0 1.75rem;
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.25rem;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
     background: var(--entry);
+    box-shadow: var(--shadow-sm);
     text-decoration: none;
-    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    transition: transform 0.18s ease, border-color 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
 .site-card:hover {
-    border-color: var(--primary);
-    background: var(--code-bg);
-    transform: translateY(-1px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .site-card-icon {
@@ -65,8 +695,8 @@
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 50%;
-    background: var(--code-bg);
-    color: var(--primary);
+    background: var(--accent-soft);
+    color: var(--accent);
 }
 
 .site-card-icon svg {
@@ -97,8 +727,13 @@
     margin-left: auto;
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--primary);
+    color: var(--accent);
     white-space: nowrap;
+}
+
+.site-card:hover .site-card-cta {
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
 }
 
 @media (max-width: 480px) {
@@ -112,3 +747,100 @@
     }
 }
 
+/* --------------------------------------------------------------------------
+   10. 廣告版位
+   僅在 params.ads.enabled = true 時由 partial 輸出；預設不佔任何空間。
+   -------------------------------------------------------------------------- */
+.ad-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 2.25rem auto;
+    padding: 0.75rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--code-bg);
+    text-align: center;
+    overflow: hidden;
+}
+
+.ad-slot-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.ad-slot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+}
+
+.ad-slot-inner .adsbygoogle {
+    display: block;
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   11. 行動版微調
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    .home-info {
+        padding: 1.6rem 1.35rem;
+        border-radius: var(--radius);
+    }
+
+    .home-info .entry-content {
+        font-size: 1rem;
+        line-height: 1.85;
+    }
+
+    .home-info .entry-content > p:last-of-type a {
+        padding: 0.65rem 1.2rem;
+    }
+
+    .post-content {
+        font-size: 1rem;
+        line-height: 1.9;
+    }
+
+    .post-content h2 {
+        font-size: 1.4rem;
+        margin-top: 2.25rem;
+    }
+
+    .post-content table {
+        font-size: 0.875rem;
+    }
+
+    .ad-slot-inner {
+        min-height: 250px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-entry,
+    .site-card,
+    .home-info .entry-content > p:last-of-type a,
+    .home-info .entry-content > p:last-of-type a:first-of-type::after,
+    .pagination a,
+    .nf-home,
+    .terms-tags a {
+        transition: none;
+    }
+
+    .post-entry:hover,
+    .site-card:hover,
+    .home-info .entry-content > p:last-of-type a:hover,
+    .pagination a:hover,
+    .nf-home:hover,
+    .terms-tags a:hover {
+        transform: none;
+    }
+}

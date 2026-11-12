@@ -59,7 +59,9 @@ https://cocobook.cc/
 | 文章 | `content/posts/*.md` |
 | 固定頁面 | `content/about.md`、`content/privacy.md`、`content/404.md` |
 | 自訂 layout | `layouts/`（404、robots.txt） |
-| 樣式 | `assets/css/extended/custom.css`（PaperMod 自動合併） |
+| 自訂 partial | `layouts/_partials/`（`ad-slot`、`extend_post_content`、`extend_head`、`404-content`） |
+| 自訂 shortcode | `layouts/_shortcodes/`（`site-card`、`ad-slot`） |
+| 樣式 | `assets/css/extended/custom.css`（PaperMod 自動合併，內含設計變數與廣告位樣式） |
 | 靜態檔 | `static/`（原樣複製到網站根目錄，例如 favicon、未來的 `ads.txt`） |
 | 主題 | `themes/PaperMod/`（git submodule） |
 | 部署腳本 | `deploy.sh` |
@@ -86,6 +88,9 @@ VPS 端：
 - `www.cocobook.cc` → `https://cocobook.cc` 301（保留路徑）。
 - 自訂中文 404 頁，且已排除在 sitemap 之外。
 - favicon 一組（ico / 16 / 32 / apple-touch / safari pinned tab）。
+- PaperMod 視覺微整型（米白 + 墨綠）：自訂色票、中文系統字型、首頁 hero、卡片與文章排版。
+- 首頁 hero 含兩個 CTA：「開始閱讀」→ `/posts/`、「相關網站」→ `/sites/`。
+- 廣告版位程式已就位但預設關閉（`params.ads.enabled = false`），關閉時不輸出任何空白區塊。
 - Google Search Console：網域 TXT 驗證通過，sitemap 已提交。
 - LINE Bot 的 `/webhook`、`/static/*` 保留未動。
 - Nginx `sites-enabled` 已清掉重複的 `.bak`，`nginx -t` 無 warning。
@@ -124,6 +129,51 @@ VPS 端：
 | 靜態快取 | Nginx `expires 30d` | CSS/JS/圖片；HTML 不快取，改版立即生效 |
 
 其他既有設定：`ShowShareButtons = true`、`ShowBreadCrumbs = true`、`ShowPostNavLinks = true`、`ShowCodeCopyButtons = true`、`enableRobotsTXT = true`。
+
+### 廣告版位（`params.ads`）
+
+`hugo.toml` 的 `[params.ads]`：
+
+| 參數 | 預設 | 說明 |
+|---|---|---|
+| `enabled` | `false` | 總開關。`false` 時全站不輸出 script、容器，也不會留下空白 |
+| `client` | `""` | AdSense Publisher ID，例如 `ca-pub-1234567890123456` |
+| `autoAds` | `false` | 保留欄位；啟用自動廣告時仍以 `client` 載入同一支 script |
+| `articleBottomSlot` | `""` | 文章底部廣告單元 ID；`ad-slot` shortcode 未指定時也共用此值 |
+
+檔案分工：
+
+| 檔案 | 作用 |
+|---|---|
+| `layouts/_partials/extend_head.html` | 載入 `adsbygoogle.js`（需 `enabled` 且 `client` 有值） |
+| `layouts/_partials/extend_post_content.html` | 文章底部自動版位（只在 `posts`、`enabled`、slot 有值時輸出） |
+| `layouts/_shortcodes/ad-slot.html` | 文章中段手動版位，例如 `{{< ad-slot >}}` |
+| `layouts/_partials/ad-slot.html` | 實際的廣告容器與 `ins.adsbygoogle` |
+| `assets/css/extended/custom.css` | `.ad-slot` 的固定最小高度（降低 CLS） |
+
+文章中加入中段版位：
+
+```markdown
+## 小標
+
+段落……
+
+{{< ad-slot >}}
+
+下一個段落……
+```
+
+- 指定不同單元：`{{< ad-slot slot="1234567890" >}}`
+- 單篇文章不想出現底部廣告：front matter 加 `hideAds: true`
+- `about`、`privacy`、`sites`、404 不會出現廣告
+
+啟用步驟：
+
+1. AdSense 審核通過，取得 Publisher ID 與廣告單元 ID。
+2. `hugo.toml` 設 `enabled = true`，填入 `client` 與 `articleBottomSlot`。
+3. `rm -rf public && hugo --minify`，確認文章頁有 `adsbygoogle`，首頁／`about`／`sites` 沒有。
+4. 把 AdSense 提供的 `ads.txt` 放進 `static/ads.txt`（**不要放假檔**）。
+5. `./deploy.sh` 後用瀏覽器確認廣告載入前後沒有明顯跳版。
 
 ---
 
@@ -368,6 +418,6 @@ git push origin main
 
 1. **寫文章**：依 `docs/content-roadmap.md` 補到 15–20 篇（目前 2 篇）。
 2. **App 教學素材**：需要使用者提供 CocoBook App 的實際畫面與操作流程（截圖最好），才能寫出準確教學。
-3. **AdSense**：內容足夠後送審；通過後把 AdSense 提供的 `ads.txt` 放進 `static/ads.txt` 並重新部署。
+3. **AdSense**：內容足夠後送審；通過後依第 4 節「廣告版位」啟用 `params.ads`，並把正式 `ads.txt` 放進 `static/ads.txt`。
 4. （選配）Cloudflare SSL 改「完整（嚴格）」。
 5. （選配）GSC 觀察「索引 → 頁面」，確認文章陸續被收錄。

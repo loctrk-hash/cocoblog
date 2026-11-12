@@ -1,0 +1,11 @@
+{{- /*
+  文章底部自動廣告版位。
+  只在 posts section、params.ads.enabled = true、且設定了 articleBottomSlot 時輸出。
+  單篇文章可用 front matter `hideAds: true` 關閉。
+*/ -}}
+{{- $ads := site.Params.ads -}}
+{{- if and $ads $ads.enabled $ads.articleBottomSlot -}}
+{{- if and (eq .Section "posts") (ne .Params.hideAds true) -}}
+{{- partial "ad-slot.html" (dict "slot" $ads.articleBottomSlot "label" "廣告") -}}
+{{- end -}}
+{{- end -}}

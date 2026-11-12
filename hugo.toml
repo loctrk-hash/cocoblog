@@ -38,7 +38,21 @@ enableEmoji = true
 
   [params.homeInfoParams]
     Title = "CocoBook 記帳筆記"
-    Content = "分享記帳技巧、理財觀念與 App 使用教學。"
+    Content = """
+分享記帳技巧、理財觀念與 App 使用教學。
+
+從第一筆紀錄開始，慢慢把每個月的錢看清楚。
+
+[開始閱讀](/posts/) [相關網站](/sites/)
+"""
+
+  # 廣告版位設定（AdSense 審核通過後再啟用）
+  # enabled 為 false 時，全站不會輸出任何廣告容器，也不會留下空白區塊。
+  [params.ads]
+    enabled = false
+    client = ""              # 例：ca-pub-1234567890123456
+    autoAds = false          # 啟用後仍只需上面的 client
+    articleBottomSlot = ""   # 文章底部廣告單元 ID（建議使用響應式單元）
 
 [[menu.main]]
   name = "文章"
