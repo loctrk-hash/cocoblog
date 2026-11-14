@@ -79,7 +79,7 @@ VPS 端：
 
 ---
 
-## 3. 目前狀態（2026-11-13）
+## 3. 目前狀態（2026-11-15）
 
 ### 已完成
 
@@ -114,6 +114,7 @@ VPS 端：
 - GSC 的 sitemap 剛提交時可能顯示「無法擷取」，通常 24–48 小時後會自己變成「成功」。實測 Googlebot 與 Mediapartners-Google 抓 `sitemap.xml` 都是 200。
 - Cloudflare SSL 模式目前是「完整（Full）」，**不是**「完整（嚴格）」。不是 AdSense 必要條件，有看到「配置」按鈕再切即可。
 - `content/404.md` 的 `url: "/404.html"` 是必要的；改掉會讓 404 頁變成 `/404/`。
+- `content/404.md` 已設 `robotsNoIndex: true`，404 頁會輸出 `noindex, nofollow`（PaperMod 原生支援）。
 - `layouts/404.html` 是早期留下的未使用檔案（實際生效的是 `layouts/_default/notfound.html`），留著無害，不要因此改動 404 設定。
 
 ---
@@ -342,9 +343,76 @@ curl -s -o /dev/null -w 'static: %{http_code}\n' https://cocobook.cc/static/main
 | `/static/main.html` | 200（LINE Bot 路徑仍在） |
 | `/webhook` | 502 是正常的（App 沒在跑）；重點是不要變成 404 |
 
+搜尋引擎收錄與 GSC 相關檢查，見第 9 節。
+
 ---
 
-## 9. 疑難排解
+## 9. Search Console 與 Google 收錄檢查
+
+「搜尋成效」是 0 筆，通常不是被擋，而是**還沒索引**或**還沒有曝光**。先確認技術面，再看 GSC 狀態。
+
+### 9.1 技術面自查（部署後可重跑）
+
+```bash
+# robots.txt 內容（應為 Allow: /，只擋 /static/ 與 /webhook）
+curl -s https://cocobook.cc/robots.txt
+
+# 首頁與文章頁的 meta robots（應為 index, follow）
+curl -s https://cocobook.cc/ | grep -oiE '<meta[^>]*robots[^>]*>'
+curl -s https://cocobook.cc/posts/practice-data/ | grep -oiE '<meta[^>]*robots[^>]*>'
+
+# 文章頁不應有 X-Robots-Tag（只有 /static/* 與 /webhook 會有 noindex）
+curl -sI https://cocobook.cc/posts/practice-data/ | grep -i 'x-robots-tag'
+
+# sitemap 可被 Googlebot 抓取
+curl -s -o /dev/null -w '%{http_code} %{content_type}\n' \
+  -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' \
+  https://cocobook.cc/sitemap.xml
+
+# 404 頁應為 noindex, nofollow
+curl -s https://cocobook.cc/404.html | grep -oiE '<meta[^>]*robots[^>]*>'
+```
+
+預期：`robots.txt` 為 `Allow: /`；首頁與文章 `index, follow`；文章頁沒有 `X-Robots-Tag`；sitemap `200` + `text/xml`；404 頁 `noindex, nofollow`。
+
+### 9.2 GSC 該看哪裡
+
+| 目的 | GSC 位置 | 判讀 |
+|---|---|---|
+| 有沒有被索引 | 索引 → 頁面 | 要看到「已建立索引」才算收錄；「已找到／已檢索 - 尚未建立索引」代表還要等 |
+| 單一網址狀態 | 網址審查 | 貼網址 → 測試實際網址 → 確認「網頁已可建立索引」 |
+| sitemap 狀態 | 網站地圖 | 應為「成功」，已探索 URL 數要與 sitemap 相符 |
+| 有沒有被懲罰 | 安全性與手動動作 | 全綠 |
+| 曝光與查詢 | 搜尋成效 | 只統計 Google 搜尋；有曝光才會有資料 |
+
+- 搜尋成效有 **2–3 天延遲**，且只計 Google 搜尋，不含直接流量與 Bing。
+- **網域資源**（DNS TXT 驗證）與 **網址前置字元資源**（`https://cocobook.cc/`）的資料是分開的，確認看的是有驗證的那一個。
+- 畫面空白時，先清掉查詢／頁面篩選，日期選「過去 28 天」。
+
+### 9.3 完全 0 筆的常見原因
+
+1. **新站還沒被索引**（最常見）：新網域通常要數天到數週。
+2. **報表延遲**：最近 1–2 天本來就還不會有資料。
+3. **看錯資源或套了篩選**。
+4. **沒有外部連結**：Google 沒有優先爬取這個站的理由。
+5. **Cloudflare 誤擋**：若開了 Bot Fight Mode 或 Block AI bots，到 Security → Events 看 Googlebot 是否被挑戰。
+
+### 9.4 建議處理順序
+
+1. 網址審查首頁 + 2–3 篇主力文章，按「要求建立索引」。
+2. 網站地圖確認成功；必要時重新提交，但不要反覆刪除重送。
+3. Cloudflare → Security → Bots 關閉 Bot Fight Mode／Block AI bots，並確認 Googlebot 沒被 challenge。
+4. 持續發文並累積外部連結，內容到 10–15 篇後再觀察。
+
+### 9.5 預期時間
+
+- 要求建立索引後：**1–3 天** 有機會出現在 `site:cocobook.cc`。
+- 搜尋成效開始有曝光：**1–2 週**（且要有實際排名）。
+- 穩定自然流量：**1–3 個月**，取決於內容量與外部連結。
+
+---
+
+## 10. 疑難排解
 
 ### 本機 `hugo` 找不到或版本太舊
 
@@ -389,7 +457,7 @@ curl -s -o /dev/null -w '%{http_code} %{content_type}\n' \
 
 ---
 
-## 10. 常用指令速查
+## 11. 常用指令速查
 
 ```bash
 # 版本與狀態
@@ -417,10 +485,10 @@ git push origin main
 
 ---
 
-## 11. 待辦（依優先序）
+## 12. 待辦（依優先序）
 
 1. **寫文章**：依 `docs/content-roadmap.md` 補到 15–20 篇（目前 2 篇）。
 2. **App 教學素材**：需要使用者提供 CocoBook App 的實際畫面與操作流程（截圖最好），才能寫出準確教學。
 3. **AdSense**：內容足夠後送審；通過後依第 4 節「廣告版位」啟用 `params.ads`，並把正式 `ads.txt` 放進 `static/ads.txt`。
 4. （選配）Cloudflare SSL 改「完整（嚴格）」。
-5. （選配）GSC 觀察「索引 → 頁面」，確認文章陸續被收錄。
+5. （選配）GSC 觀察「索引 → 頁面」，確認文章陸續被收錄（檢查步驟見第 9 節）。
