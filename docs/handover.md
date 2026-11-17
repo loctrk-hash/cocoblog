@@ -97,7 +97,7 @@ VPS 端：
 
 ### 目前內容
 
-目前 **6 篇**文章：
+目前 **7 篇**文章：
 
 - `content/posts/first-month-budgeting.md` — 記帳新手的第一個月：從零開始建立習慣
 - `content/posts/three-budgeting-methods.md` — 三種記帳法比較：流水帳、分類預算、信封法
@@ -105,6 +105,7 @@ VPS 端：
 - `content/posts/record-management/index.md` — CocoBook 記帳記錄篇：新增、查詢、修改、刪除（App 教學，含 9 張頁面截圖）
 - `content/posts/practice-data/index.md` — CocoBook 新手練習區：不用先輸入紀錄，也能先練手（App 教學，含 11 張頁面截圖）
 - `content/posts/fixed-vs-variable-expenses.md` — 固定支出 vs 變動支出：先分清楚，預算才有意義（記帳技巧）
+- `content/posts/monthly-budget-setup.md` — 每月預算怎麼設：從上個月的實際數字開始（記帳技巧）
 
 ### 下一個主要目標
 
