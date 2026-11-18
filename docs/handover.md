@@ -1,6 +1,6 @@
 # CocoBook 部落格交接文件
 
-> 最後更新：2026-11-13
+> 最後更新：2026-11-19
 > 這份文件給「新開的 session」或「未來的自己」看。讀完這份 + `docs/content-roadmap.md`，就能繼續寫文章與部署，不需要回頭翻舊對話。
 
 ---
@@ -97,7 +97,7 @@ VPS 端：
 
 ### 目前內容
 
-目前 **7 篇**文章：
+目前 **8 篇**文章：
 
 - `content/posts/first-month-budgeting.md` — 記帳新手的第一個月：從零開始建立習慣
 - `content/posts/three-budgeting-methods.md` — 三種記帳法比較：流水帳、分類預算、信封法
@@ -106,6 +106,7 @@ VPS 端：
 - `content/posts/practice-data/index.md` — CocoBook 新手練習區：不用先輸入紀錄，也能先練手（App 教學，含 11 張頁面截圖）
 - `content/posts/fixed-vs-variable-expenses.md` — 固定支出 vs 變動支出：先分清楚，預算才有意義（記帳技巧）
 - `content/posts/monthly-budget-setup.md` — 每月預算怎麼設：從上個月的實際數字開始（記帳技巧）
+- `content/posts/cash-card-e-payment-tracking.md` — 現金、信用卡、電子支付混用：記消費日，不要記扣款日（記帳技巧；通用觀念文，不提 App 支付方式功能、不連結 App 文章）
 
 ### 下一個主要目標
 
@@ -135,6 +136,11 @@ VPS 端：
 | 靜態快取 | Nginx `expires 30d` | CSS/JS/圖片；HTML 不快取，改版立即生效 |
 
 其他既有設定：`ShowShareButtons = true`、`ShowBreadCrumbs = true`、`ShowPostNavLinks = true`、`ShowCodeCopyButtons = true`、`enableRobotsTXT = true`。
+
+### 內容方向的特殊約定
+
+- 記帳技巧 #5 `cash-card-e-payment-tracking` 已於 2026-11-19 發布為**通用記帳觀念文**。CocoBook 沒有區分現金／信用卡／電子支付，日後修改這篇時不得加入「App 有支付方式欄位」的描述，也不要在文中連結 App 教學文章。
+- 只有 App 教學需要使用者提供素材與 review；記帳技巧與理財觀念可依路線圖直接撰寫發布。
 
 ### 廣告版位（`params.ads`）
 
