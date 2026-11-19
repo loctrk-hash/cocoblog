@@ -97,7 +97,7 @@ VPS 端：
 
 ### 目前內容
 
-目前 **8 篇**文章：
+目前 **9 篇**文章：
 
 - `content/posts/first-month-budgeting.md` — 記帳新手的第一個月：從零開始建立習慣
 - `content/posts/three-budgeting-methods.md` — 三種記帳法比較：流水帳、分類預算、信封法
@@ -107,6 +107,7 @@ VPS 端：
 - `content/posts/fixed-vs-variable-expenses.md` — 固定支出 vs 變動支出：先分清楚，預算才有意義（記帳技巧）
 - `content/posts/monthly-budget-setup.md` — 每月預算怎麼設：從上個月的實際數字開始（記帳技巧）
 - `content/posts/cash-card-e-payment-tracking.md` — 現金、信用卡、電子支付混用：記消費日，不要記扣款日（記帳技巧；通用觀念文，不提 App 支付方式功能、不連結 App 文章）
+- `content/posts/10-day-trend-chart/index.md` — 10 天走勢圖怎麼看：抓出花費暴增的那幾天（App 教學，含 7 張示範資料截圖）
 
 ### 下一個主要目標
 
@@ -141,6 +142,7 @@ VPS 端：
 
 - 記帳技巧 #5 `cash-card-e-payment-tracking` 已於 2026-11-19 發布為**通用記帳觀念文**。CocoBook 沒有區分現金／信用卡／電子支付，日後修改這篇時不得加入「App 有支付方式欄位」的描述，也不要在文中連結 App 教學文章。
 - 只有 App 教學需要使用者提供素材與 review；記帳技巧與理財觀念可依路線圖直接撰寫發布。
+- App 教學 #23 `10-day-trend-chart` 已於 2026-11-19 發布，結尾以純文字提及尚未發布的〈查詢項目詳細介紹〉（slug `record-search`），刻意不加超連結以免 404。撰寫 #25 時須在該文留註記，並於發布後回頭把 #23 的純文字改成真實連結。
 
 ### 廣告版位（`params.ads`）
 
