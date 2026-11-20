@@ -93,7 +93,7 @@ TocOpen: false
 | 連續幾個月支出上升 | 回歷史走勢圖確認是不是趨勢 |
 | 增加最多的是「其他」 | 先把「其他」拆細，找出到底是什麼 |
 
-想針對增加的金額設限，可以接著看[每月預算怎麼設](/posts/monthly-budget-setup/)；想分清楚哪些錢本來就動不了，則可以看[固定支出 vs 變動支出](/posts/fixed-vs-variable-expenses/)。想查「交通 +2,720」是哪些紀錄造成的，可以另外看〈查詢項目詳細介紹〉；在那篇上架前，先用[CocoBook 記帳記錄篇](/posts/record-management/)的查詢方式處理。
+想針對增加的金額設限，可以接著看[每月預算怎麼設](/posts/monthly-budget-setup/)；想分清楚哪些錢本來就動不了，則可以看[固定支出 vs 變動支出](/posts/fixed-vs-variable-expenses/)。想查「交通 +2,720」是哪些紀錄造成的，可以看[查詢項目詳細介紹](/posts/record-search/)；60 筆上限與 CSV 下載則整理在[CocoBook 記帳記錄篇](/posts/record-management/)。
 
 ## 幾個容易踩的坑
 
