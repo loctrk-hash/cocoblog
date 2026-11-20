@@ -1,6 +1,6 @@
 # CocoBook 部落格交接文件
 
-> 最後更新：2026-11-20
+> 最後更新：2026-11-21
 > 這份文件給「新開的 session」或「未來的自己」看。讀完這份 + `docs/content-roadmap.md`，就能繼續寫文章與部署，不需要回頭翻舊對話。
 
 ---
@@ -97,7 +97,7 @@ VPS 端：
 
 ### 目前內容
 
-目前 **11 篇**文章：
+目前 **12 篇**文章：
 
 - `content/posts/first-month-budgeting.md` — 記帳新手的第一個月：從零開始建立習慣
 - `content/posts/three-budgeting-methods.md` — 三種記帳法比較：流水帳、分類預算、信封法
@@ -110,6 +110,7 @@ VPS 端：
 - `content/posts/10-day-trend-chart/index.md` — 10 天走勢圖怎麼看：抓出花費暴增的那幾天（App 教學，含 7 張示範資料截圖）
 - `content/posts/history-trend-chart/index.md` — 歷史走勢圖怎麼看：用 12 個月找出花費暴增的月份（App 教學，含 4 張示範資料截圖）
 - `content/posts/monthly-report/index.md` — 月報表解讀：三個數字決定下個月的調整（App 教學，含 3 張示範資料截圖）
+- `content/posts/small-frequent-spending.md` — 小額高頻支出：月底變緊的真正原因（記帳技巧）
 
 ### 下一個主要目標
 
