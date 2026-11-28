@@ -46,11 +46,12 @@ enableEmoji = true
 [開始閱讀](/posts/) [相關網站](/sites/)
 """
 
-  # 廣告版位設定（AdSense 審核通過後再啟用）
-  # enabled 為 false 時，全站不會輸出任何廣告容器，也不會留下空白區塊。
+  # 廣告版位設定
+  # 送審階段先載入 adsbygoogle.js 讓 Google 驗證網站；廣告版位等審核通過、
+  # 取得廣告單元 ID 後再填入 articleBottomSlot。
   [params.ads]
-    enabled = false
-    client = ""              # 例：ca-pub-1234567890123456
+    enabled = true
+    client = "ca-pub-5283128150767055"
     autoAds = false          # 啟用後仍只需上面的 client
     articleBottomSlot = ""   # 文章底部廣告單元 ID（建議使用響應式單元）
 

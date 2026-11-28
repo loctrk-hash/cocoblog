@@ -152,6 +152,8 @@
 
 ## 6. AdSense 送審檢查清單
 
+> 2026-11-28 已送審。實際採用 **script 驗證**（`adsbygoogle.js` 已於全站 `<head>` 上線），非 `ads.txt` 驗證；下列為原始清單，與 `ads.txt` 相關的項目改為通過後處理。
+
 ### 內容
 
 - [ ] 15–20 篇原創文章，每篇有實質內容與個人觀點
@@ -170,11 +172,12 @@
 
 ### 帳號
 
-- [ ] 用要收款的 Google 帳號申請
-- [ ] 網站新增 `cocobook.cc`
-- [ ] 驗證方式選 `ads.txt`，把 AdSense 給的那一行放到 `static/ads.txt`
-- [ ] `./deploy.sh` 後確認 `https://cocobook.cc/ads.txt` 回 200
+- [x] 用要收款的 Google 帳號申請
+- [x] 網站新增 `cocobook.cc`
+- [x] 驗證方式為 script：把 AdSense 給的 `adsbygoogle.js?client=ca-pub-5283128150767055` 加入全站 `<head>`（由 `hugo.toml` 的 `params.ads` 輸出）
+- [x] `./deploy.sh` 後確認首頁／文章／404 皆有 script、無廣告容器
 - [ ] 送審後耐心等 1–4 週，被拒可補內容再送，不會有懲罰
+- [ ] 通過後取得官方 `ads.txt` 放進 `static/ads.txt`，部署後確認 `https://cocobook.cc/ads.txt` 回 200（目前 404 是正常的）
 
 ### 通過後
 
