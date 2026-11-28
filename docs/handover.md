@@ -62,7 +62,7 @@ https://cocobook.cc/
 | 自訂 partial | `layouts/_partials/`（`ad-slot`、`extend_post_content`、`extend_head`、`404-content`） |
 | 自訂 shortcode | `layouts/_shortcodes/`（`site-card`、`ad-slot`） |
 | 樣式 | `assets/css/extended/custom.css`（PaperMod 自動合併，內含設計變數與廣告位樣式） |
-| 靜態檔 | `static/`（原樣複製到網站根目錄，例如 favicon、未來的 `ads.txt`） |
+| 靜態檔 | `static/`（原樣複製到網站根目錄，例如 favicon、`ads.txt`） |
 | 主題 | `themes/PaperMod/`（git submodule） |
 | 部署腳本 | `deploy.sh` |
 | 建置輸出 | `public/`（已 gitignore，不要 commit） |
@@ -90,7 +90,7 @@ VPS 端：
 - favicon 一組（ico / 16 / 32 / apple-touch / safari pinned tab）。
 - PaperMod 視覺微整型（米白 + 墨綠）：自訂色票、中文系統字型、首頁 hero、卡片與文章排版。
 - 首頁 hero 含兩個 CTA：「開始閱讀」→ `/posts/`、「相關網站」→ `/sites/`。
-- 廣告版位程式已就位；2026-11-28 已送審 AdSense 並啟用 script（`params.ads.enabled = true`、`client = "ca-pub-5283128150767055"`），全站 `<head>` 輸出 `adsbygoogle.js`。廣告版位仍關閉（`articleBottomSlot = ""`），不輸出任何容器或空白區塊。
+- 廣告版位程式已就位；2026-11-28 已送審 AdSense 並啟用 script（`params.ads.enabled = true`、`client = "ca-pub-5283128150767055"`），全站 `<head>` 輸出 `adsbygoogle.js`。同日已放置 `static/ads.txt`（`google.com, pub-5283128150767055, DIRECT, f08c47fec0942fa0`），線上回 200。廣告版位仍關閉（`articleBottomSlot = ""`），不輸出任何容器或空白區塊。
 - Google Search Console：網域 TXT 驗證通過，sitemap 已提交。
 - LINE Bot 的 `/webhook`、`/static/*` 保留未動。
 - Nginx `sites-enabled` 已清掉重複的 `.bak`，`nginx -t` 無 warning。
@@ -175,7 +175,7 @@ VPS 端：
 - 理財觀念 #11 `savings-rate` 已於 2026-11-26 發布，是該分類第 4 篇。公式（收入 − 支出）÷ 收入，分母用實領收入，與 50/30/20 同口徑；分子對照表：自己撥去投資算、投資獲利不算、勞退自提算、雇主提撥不算、房貸本金口徑選定後要固定。強調「投資是儲蓄的去向，不是額外一筆」。不推薦商品、不當投資建議；尚未發布的理財文不連結。
 - 理財觀念 #12 `needs-vs-wants` 已於 2026-11-27 發布，是該分類第 5 篇，也是全站第 20 篇。主張「排序而非刪除」：用替代方案三問判斷、四層排序、給想要一個預算上限；避免「你又亂花」式道德綁架。尚未發布的理財文（通膨、理財順序）不連結。
 - 理財觀念 #13 `inflation-and-savings` 已於 2026-11-28 發布，是該分類第 6 篇，也是全站第 21 篇。核心是名目金額 vs 實質購買力；一年試算 100,000×1.01÷1.02 ≈ 99,019（名目增 1,000、實質減約 981）；十年 2% 約漲 22%；利率低於通膨率即購買力縮水。現金三用途（生活週轉／緊急預備金／短期目標）仍要保留流動性，只有「超出的部分」才需考慮別的安排。不預測利率、不推薦商品或標的、不當投資建議；尚未發布的理財文（理財順序）不連結。
-- AdSense 已於 2026-11-28 送審，Publisher ID 為 `ca-pub-5283128150767055`。送審階段只載入 `adsbygoogle.js`（全站 `<head>`），**不輸出任何廣告版位**；`articleBottomSlot` 保持空白直到取得廣告單元 ID。`static/ads.txt` 尚未取得官方檔，目前 404 是正常的，切勿放假檔。
+- AdSense 已於 2026-11-28 送審，Publisher ID 為 `ca-pub-5283128150767055`（後台「帳戶資訊」顯示為 `pub-5283128150767055`，差 `ca-` 前綴）。送審階段只載入 `adsbygoogle.js`（全站 `<head>`），**不輸出任何廣告版位**；`articleBottomSlot` 保持空白直到取得廣告單元 ID。`static/ads.txt` 已用標準格式放置（`google.com, pub-5283128150767055, DIRECT, f08c47fec0942fa0`；末段是 Google 官方固定值），線上回 200。後台「帳戶 → 設定」沒有「取得 ads.txt」選項是正常的，可直接用此標準內容。
 - App 教學 #26 `keep-your-account` 已於 2026-11-24 發布，素材為 `/tmp/c7/1.png`～`8.png` 與 `10.png`（無 9.png），共 9 張並縮至寬 1200px。登入頁按鈕原名為「顯示現行的訪客帳號」「回復訪客帳號」「改變訪客帳號」；主畫面頂端為「訪客帳號／LINE 名稱、到期日、綁定 LINE、登出」。使用者明確指示：**到期日機制不解釋**（訪客帳號到期日其實是建立前一天、建立當天就過期，但對讀者無行動價值）；「改變訪客帳號」是切換入口、非保存步驟；綁定 LINE 後只能用 LINE 登入；guest_ 字串遺失就無法找回原本紀錄。文章不承諾備份或匯出。
 - 新類別「記帳故事」S1～S3 由舊 LINE Bot 文案改編，但**不是銷售頁**。主角統一叫**小明**（不用小芳、小名、aa）；工具稱呼統一「CocoBook 記帳（網頁版）」。不沿用舊 DM1～DM3 圖片（含 Cocobot 品牌與下載字樣），移除 LINE 好友連結；全系列唯一對外連結是結尾 CTA `https://cocoweb.cocobook.cc/`。S3 用純文字提到 7 篇記帳技巧標題，不加超連結。三篇先寫 `draft: true`，等使用者通知才逐篇發布。
 
@@ -224,12 +224,13 @@ VPS 端：
 2. ✅ `hugo.toml` 設 `enabled = true`、填入 `client`；`articleBottomSlot` 保持空白。
 3. ✅ `rm -rf public && hugo --minify` 驗證：全站 `<head>` 有 `adsbygoogle.js`，沒有任何 `ad-slot` 容器。
 4. ✅ `./deploy.sh` 上線；線上驗證首頁／文章／`about`／`privacy`／`sites`／404 皆有 script，無廣告容器。
+5. ✅ 放置 `static/ads.txt`（標準格式，內容見上方約定）；線上 `https://cocobook.cc/ads.txt` 回 `200`，`Content-Type: text/plain; charset=utf-8`，與本機檔案完全一致。
 
 **待審核通過後**
 
-5. 在 AdSense 後台建立「響應式」廣告單元，取得 slot ID 填入 `articleBottomSlot`（文章底部版位才會出現）。
-6. 把 AdSense 提供的正式 `ads.txt` 放進 `static/ads.txt`（**不要放假檔**；目前線上為 404 屬正常）。
+6. 在 AdSense 後台建立「響應式」廣告單元，取得 slot ID 填入 `articleBottomSlot`（文章底部版位才會出現）。
 7. 重新 build、部署，用瀏覽器確認廣告載入前後沒有明顯跳版。
+8. 若後台之後提供不同格式的 `ads.txt`，以後台內容為準覆蓋 `static/ads.txt`。
 
 ---
 
@@ -539,7 +540,7 @@ git push origin main
 
 ## 12. 待辦（依優先序）
 
-1. **AdSense**：已送審且 script 已上線；等待審核結果。通過後建立廣告單元填入 `articleBottomSlot`，並把正式 `ads.txt` 放進 `static/ads.txt`（依第 4 節「廣告版位」）。
+1. **AdSense**：已送審，script 與 `ads.txt` 皆已上線；等待審核結果。通過後建立廣告單元填入 `articleBottomSlot`（依第 4 節「廣告版位」）。
 2. **寫文章**：目前 21 篇，已超過原設定門檻；可選繼續寫理財觀念 #14，或等通知寫「記帳故事」S1～S3。
 3. **App 教學素材**：需要使用者提供 CocoBook App 的實際畫面與操作流程（截圖最好），才能寫出準確教學。
 4. （選配）Cloudflare SSL 改「完整（嚴格）」。

@@ -152,7 +152,7 @@
 
 ## 6. AdSense 送審檢查清單
 
-> 2026-11-28 已送審。實際採用 **script 驗證**（`adsbygoogle.js` 已於全站 `<head>` 上線），非 `ads.txt` 驗證；下列為原始清單，與 `ads.txt` 相關的項目改為通過後處理。
+> 2026-11-28 已送審。`adsbygoogle.js` 已於全站 `<head>` 上線，`ads.txt` 亦已用標準格式放置並回 200；下列為原始清單，已完成項目打勾。
 
 ### 內容
 
@@ -176,17 +176,17 @@
 - [x] 網站新增 `cocobook.cc`
 - [x] 驗證方式為 script：把 AdSense 給的 `adsbygoogle.js?client=ca-pub-5283128150767055` 加入全站 `<head>`（由 `hugo.toml` 的 `params.ads` 輸出）
 - [x] `./deploy.sh` 後確認首頁／文章／404 皆有 script、無廣告容器
+- [x] `static/ads.txt` 已放置標準內容 `google.com, pub-5283128150767055, DIRECT, f08c47fec0942fa0`，部署後 `https://cocobook.cc/ads.txt` 回 200
 - [ ] 送審後耐心等 1–4 週，被拒可補內容再送，不會有懲罰
-- [ ] 通過後取得官方 `ads.txt` 放進 `static/ads.txt`，部署後確認 `https://cocobook.cc/ads.txt` 回 200（目前 404 是正常的）
 
 ### 通過後
 
 啟用方式已整理在 `docs/handover.md` 第 4 節「廣告版位（`params.ads`）」。摘要：
 
-- [ ] `hugo.toml` 的 `[params.ads]` 設 `enabled = true`
-- [ ] 填入 `client`（`ca-pub-...`）與 `articleBottomSlot`
-- [ ] 把正式 `ads.txt` 放進 `static/ads.txt`（不要放假檔）
-- [ ] `./deploy.sh` 後確認文章頁有 `adsbygoogle`、首頁與 `/sites/` 沒有
+- [x] `hugo.toml` 的 `[params.ads]` 設 `enabled = true`、填入 `client = "ca-pub-5283128150767055"`
+- [x] `static/ads.txt` 已放置標準格式內容，線上回 200
+- [ ] 建立廣告單元後填入 `articleBottomSlot`（目前空白，故無廣告容器）
+- [ ] `./deploy.sh` 後確認全站 `<head>` 有 `adsbygoogle.js`，只有文章頁有 `ad-slot` 容器
 - [ ] 用瀏覽器確認廣告載入前後沒有明顯跳版
 
 ---
